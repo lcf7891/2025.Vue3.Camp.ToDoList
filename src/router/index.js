@@ -50,6 +50,10 @@ const router = createRouter({
   routes
 })
 
+// router.beforeEach((to, form, next) => {
+//   document.title = to.meta.title || '我的待辦清單'
+//   next()
+// })
 router.beforeEach(async (to) => {
   document.title = to.meta.title || '我的待辦清單'
   const toast = useToastStore()
