@@ -21,33 +21,51 @@
           <button class="basic-btn btn" type="submit">登入</button>
         </div>
       </form>
-      <div class="text-center">
+      <!-- <div class="text-center">
         <RouterLink to="/register" class="btn text-primary hover:text-primary/80 font-bold">
           註冊帳號
         </RouterLink>
-      </div>
+      </div> -->
     </div>
   </LayoutAuth>
 </template>
 
 <script setup>
   import { ref } from 'vue'
+  import LayoutAuth from '@/components/LayoutAuth.vue'
   import InputField from '@/components/InputField.vue'
+  import { apiSignIn } from '@/composables/useApi'
+  import { setToken } from '@/composables/useCookie'
+  import { setStorage } from '@/composables/useNicknameStorage'
 
-  const apiUrl = import.meta.env.VITE_API_BASE_URL
   const userData = ref({
     email: '',
     password: ''
   })
-
-  const signIn = async () => {
-    const config = {
-      url: `${apiUrl}users/sign_in`,
-      method: 'POST'
+  const resetForm = () => {
+    userData.value = {
+      email: '',
+      password: ''
     }
+  }
 
-    const result = await axios(config)
-    console.log(result)
+  const signIn = () => {
+    const data = {
+      email: userData.value.email,
+      password: userData.value.password
+    }
+    apiSignIn(data)
+      .then((res) => {
+        if (res.status) {
+          const { token, exp } = res
+          setToken(token, exp)
+          setStorage(res.nickname)
+          resetForm()
+        }
+      })
+      .catch((error) => {
+        console.log('err', error)
+      })
   }
 </script>
 <!-- <script setup>

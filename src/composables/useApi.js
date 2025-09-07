@@ -7,7 +7,25 @@ const api = axios.create({
   }
 })
 
-export const apiSignIn = async () => {
+export const apiSignIn = async (data) => {
   try {
-  } catch (error) {}
+    const config = {
+      url: 'users/sign_in',
+      method: 'POST'
+    }
+
+    if (data) {
+      if (config.method.toUpperCase() === 'GET') {
+        config.params = data
+      } else {
+        config.data = data
+      }
+    }
+
+    const response = await api(config)
+    return response.data
+  } catch (error) {
+    const message = error.response?.data?.message || '請求失敗'
+    throw new Error(message)
+  }
 }
