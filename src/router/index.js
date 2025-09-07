@@ -16,6 +16,14 @@ const routes = [
     meta: {
       title: '註冊'
     }
+  },
+  {
+    path: '/todolist',
+    name: 'TodoList',
+    component: () => import('../views/TodoListView.vue'),
+    meta: {
+      title: '待辦事項清單'
+    }
   }
 ]
 const router = createRouter({

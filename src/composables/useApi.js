@@ -1,12 +1,16 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  baseURL: import.meta.env.VITE_API_BASE_URL
 })
-
+api.interceptors.request.use((config) => {
+  // const token = getToken()
+  const token = document.cookie.replace(/(?:(?:^|.*;\s*)todolistToken\s*=\s*([^;]*).*$)|^.*$/, '$1')
+  if (token) {
+    config.headers.Authorization = token
+  }
+  return config
+})
 export const apiRequest = async (url, method, data) => {
   try {
     const config = {

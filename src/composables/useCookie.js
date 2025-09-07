@@ -1,7 +1,7 @@
 const name = 'todolistToken'
 
 export const getToken = () => {
-  const regExp = new RegExp(`(?:(?:^|.*;\\s*)${name}\\s*\\=\\s*([^;]*).*$)|^.*$`)
+  const regExp = new RegExp(`(?:(?:^|.*;\\s*)${name}\\s*=\\s*([^;]*).*$)|^.*$`)
   return document.cookie.replace(regExp, '$1')
 }
 export const setToken = (token, exp) => {

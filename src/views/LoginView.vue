@@ -32,12 +32,16 @@
 
 <script setup>
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import LayoutAuth from '@/components/LayoutAuth.vue'
   import InputField from '@/components/InputField.vue'
   import { apiRequest } from '@/composables/useApi'
   import { setToken } from '@/composables/useCookie'
   import { setStorage } from '@/composables/useNicknameStorage'
   import { useToastStore } from '@/stores/useToastStore'
+
+  const router = useRouter()
+  const toast = useToastStore()
 
   const userData = ref({
     email: '',
@@ -49,7 +53,6 @@
       password: ''
     }
   }
-  const toast = useToastStore()
   const signIn = () => {
     const data = {
       email: userData.value.email,
@@ -63,6 +66,7 @@
           setStorage(res.nickname)
           resetForm()
           toast.showToast('登入成功', `歡迎回來！ ${res.nickname}`)
+          router.push('/todolist')
         }
       })
       .catch((error) => {
