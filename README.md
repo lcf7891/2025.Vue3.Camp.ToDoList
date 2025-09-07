@@ -1,35 +1,30 @@
-# 2025.Vue3.Camp.ToDoList
+# Vue3 新手營 Todolist API 任務
 
-This template should help get you started developing with Vue 3 in Vite.
+## 資料夾結構說明
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
+```
+src/
+├── assets/       # 資源
+│ └── images/     # 圖片
+│ └── style/      # 樣式
+├── components/   # 元件
+├── composables/  # 邏輯封裝
+├── router/       # Vue Router 設定
+├── stores/       # Pinia 狀態管理
+├── views/        # 頁面
+├── App.vue       # 根元件
+└── main.js       # 進入點
 ```
 
-### Compile and Hot-Reload for Development
+## 完成條件
 
-```sh
-pnpm dev
-```
-
-### Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+- [x] 需使用 Vue 框架來挑戰，並整合此任務提供的 API
+- [x] 需使用 Vue Router，並統一部署到 GitHub Pages
+- [x] 待辦為零筆資料時，需顯示文字「目前尚無待辦事項」
+- [x] 新增待辦功能
+- [x] 移除待辦功能
+- [x] 切換待辦狀態(打勾表示已完成、未勾表示待完成)
+- [x] 狀態頁籤切換功能(全部、待完成、已完成)
+- [x] 確認待完成項目總數 (5 個待完成項目)
+- [x] 登入、註冊 API 功能
+- [x] 需處理重複帳號註冊時， API 回傳錯誤時，需提醒用戶。(例：alert 彈跳、紅色文字顯示、SweetAlert2)
