@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: () => import('../views/LoginView.vue'),
+    component: () => import('@/views/LoginView.vue'),
     meta: {
       title: '首頁'
     }
@@ -16,7 +16,7 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../views/RegisterView.vue'),
+    component: () => import('@/views/RegisterView.vue'),
     meta: {
       title: '註冊'
     }
@@ -24,7 +24,7 @@ const routes = [
   {
     path: '/todolist',
     name: 'TodoList',
-    component: () => import('../views/TodoListView.vue'),
+    component: () => import('@/views/TodoListView.vue'),
     meta: {
       title: '待辦事項清單'
     }
@@ -32,7 +32,7 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: () => import('../views/NotFound.vue'),
+    component: () => import('@/views/NotFound.vue'),
     meta: {
       title: '找不到頁面'
     }
