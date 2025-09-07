@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen lg:bg-linear-[175deg,#FFD370_60%,#fff_40%]">
     <nav class="flex items-center justify-between px-8 py-4 lg:mb-6">
-      <RouterLink to="/">
+      <RouterLink to="/login">
         <img src="@/assets/images/logo.png" alt="todolist logo" />
       </RouterLink>
       <ul class="flex items-center">
@@ -70,7 +70,7 @@
         toast.showToast(res.message, `期待您再次回來！ ${name}`)
         delStorage()
         delToken()
-        router.push('/')
+        router.push('/login')
       })
       .catch((error) => {
         toast.showToast('登出失敗', error.message)

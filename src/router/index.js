@@ -62,7 +62,7 @@ router.beforeEach(async (to) => {
 
   // 已登入 → 禁止進入登入頁
   if (token && to.name === 'Login') {
-    return { name: 'Todolist' }
+    return { name: 'TodoList' }
   }
 
   // 若需要驗證 token 是否有效
