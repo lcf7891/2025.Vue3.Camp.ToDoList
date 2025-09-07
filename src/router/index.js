@@ -50,12 +50,8 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || '我的待辦清單'
-  next()
-})
-
 router.beforeEach(async (to) => {
+  document.title = to.meta.title || '我的待辦清單'
   const toast = useToastStore()
   const token = getToken()
 
@@ -66,7 +62,7 @@ router.beforeEach(async (to) => {
 
   // 已登入 → 禁止進入登入頁
   if (token && to.name === 'Login') {
-    return { name: 'TodoList' }
+    return { name: 'Todolist' }
   }
 
   // 若需要驗證 token 是否有效

@@ -6,7 +6,7 @@ const api = axios.create({
 })
 api.interceptors.request.use((config) => {
   const token = getToken()
-  // const token = document.cookie.replace(/(?:(?:^|.*;\s*)todolistToken\s*=\s*([^;]*).*$)|^.*$/, '$1')
+
   if (token) {
     config.headers.Authorization = token
   }
