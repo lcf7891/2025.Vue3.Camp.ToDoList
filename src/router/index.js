@@ -3,10 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    redirect: '/login',
-    meta: {
-      title: '導航頁'
-    }
+    redirect: '/login'
   },
   {
     path: '/login',
@@ -46,7 +43,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, form, next) => {
+router.beforeEach((to, from, next) => {
   document.title = to.meta.title || '我的待辦清單'
   next()
 })
