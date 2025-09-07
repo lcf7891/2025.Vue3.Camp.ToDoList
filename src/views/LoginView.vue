@@ -21,11 +21,11 @@
           <button class="basic-btn btn" type="submit">登入</button>
         </div>
       </form>
-      <!-- <div class="text-center">
+      <div class="text-center">
         <RouterLink to="/register" class="btn text-primary hover:text-primary/80 font-bold">
           註冊帳號
         </RouterLink>
-      </div> -->
+      </div>
     </div>
   </LayoutAuth>
 </template>
@@ -34,7 +34,7 @@
   import { ref } from 'vue'
   import LayoutAuth from '@/components/LayoutAuth.vue'
   import InputField from '@/components/InputField.vue'
-  import { apiSignIn } from '@/composables/useApi'
+  import { apiRequest } from '@/composables/useApi'
   import { setToken } from '@/composables/useCookie'
   import { setStorage } from '@/composables/useNicknameStorage'
   import { useToastStore } from '@/stores/useToastStore'
@@ -55,7 +55,7 @@
       email: userData.value.email,
       password: userData.value.password
     }
-    apiSignIn(data)
+    apiRequest('users/sign_in', 'POST', data)
       .then((res) => {
         if (res.status) {
           const { token, exp } = res
@@ -69,7 +69,6 @@
         toast.showToast('登入失敗', error.message)
         // delToken()
         resetForm()
-        // console.log('err', error)
       })
   }
 </script>

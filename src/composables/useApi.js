@@ -7,11 +7,11 @@ const api = axios.create({
   }
 })
 
-export const apiSignIn = async (data) => {
+export const apiRequest = async (url, method, data) => {
   try {
     const config = {
-      url: 'users/sign_in',
-      method: 'POST'
+      url,
+      method
     }
 
     if (data) {
