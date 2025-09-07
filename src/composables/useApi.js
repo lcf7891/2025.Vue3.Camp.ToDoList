@@ -29,7 +29,8 @@ export const apiRequest = async (url, method, data) => {
     const response = await api(config)
     return response.data
   } catch (error) {
-    const message = error.response?.data?.message || '請求失敗'
+    // const message = error.response?.data?.message || '請求失敗'
+    const message = error?.response?.data?.message || error?.message || '請求失敗'
     throw new Error(message)
   }
 }
