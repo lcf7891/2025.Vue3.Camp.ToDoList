@@ -1,1 +1,0 @@
-import{_ as r,c as n,o as a,a as t,b as o,F as s}from"./index-Ba5Q6wfP.js";const l={};function u(d,e){return a(),n(s,null,[e[0]||(e[0]=t("h1",null,"You did it!",-1)),e[1]||(e[1]=t("p",null,[o(" Visit "),t("a",{href:"https://vuejs.org/",target:"_blank",rel:"noopener"},"vuejs.org"),o(" to read the documentation ")],-1))],64)}const c=r(l,[["render",u]]);export{c as default};
