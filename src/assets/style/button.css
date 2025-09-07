@@ -1,0 +1,17 @@
+@layer components {
+  .btn {
+    @apply cursor-pointer border-0 outline-0;
+  }
+  .basic-btn {
+    @apply bg-primary hover:bg-primary/80 rounded-xl px-12 py-3 font-bold text-white;
+  }
+  .tab-btn-group {
+    @apply flex w-full items-center justify-center;
+  }
+  .tab-btn {
+    @apply border-b-tab hover:border-b-primary hover:text-primary text-muted flex w-full items-center justify-center border-b-2 py-4 text-lg font-bold hover:bg-[#F5F5F5];
+  }
+  .tab-btn-active {
+    @apply border-b-primary text-primary;
+  }
+}
