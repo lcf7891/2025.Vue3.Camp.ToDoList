@@ -37,7 +37,7 @@
         </div>
       </form>
       <div class="text-center">
-        <RouterLink to="/login" class="btn text-primary hover:text-primary/80 font-bold">
+        <RouterLink to="/" class="btn text-primary hover:text-primary/80 font-bold">
           登入
         </RouterLink>
       </div>
@@ -88,7 +88,7 @@
         if (res.status) {
           toast.showToast('註冊成功', res.uid)
           resetForm()
-          router.push('/login')
+          router.push('/')
         }
       })
       .catch((error) => {
