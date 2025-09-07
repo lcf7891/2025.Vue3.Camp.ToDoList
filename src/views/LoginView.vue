@@ -37,6 +37,7 @@
   import { apiSignIn } from '@/composables/useApi'
   import { setToken } from '@/composables/useCookie'
   import { setStorage } from '@/composables/useNicknameStorage'
+  import { useToastStore } from '@/stores/useToastStore'
 
   const userData = ref({
     email: '',
@@ -48,7 +49,7 @@
       password: ''
     }
   }
-
+  const toast = useToastStore()
   const signIn = () => {
     const data = {
       email: userData.value.email,
@@ -61,55 +62,14 @@
           setToken(token, exp)
           setStorage(res.nickname)
           resetForm()
+          toast.showToast('登入成功', `歡迎回來！ ${res.nickname}`)
         }
       })
       .catch((error) => {
-        console.log('err', error)
+        toast.showToast('登入失敗', error.message)
+        // delToken()
+        resetForm()
+        // console.log('err', error)
       })
   }
 </script>
-<!-- <script setup>
-  import { ref } from 'vue'
-  import LayoutAuth from '@/components/LayoutAuth.vue'
-  import InputField from '@/components/InputField.vue'
-  import { apiRequest } from '@/composables/useApi'
-  import { setToken, delToken } from '@/composables/useCookie'
-  import { setStorage } from '@/composables/useNicknameStorage'
-  import { useRouter } from 'vue-router'
-  import { useToastStore } from '@/stores/useToastStore'
-
-  const toast = useToastStore()
-  const router = useRouter()
-
-  const userData = ref({
-    email: '',
-    password: ''
-  })
-  const resetForm = () => {
-    userData.value = {
-      email: '',
-      password: ''
-    }
-  }
-  const signIn = () => {
-    const data = {
-      email: userData.value.email,
-      password: userData.value.password
-    }
-
-    apiRequest('users/sign_in', 'POST', data)
-      .then((response) => {
-        const { token, exp } = response
-        toast.showToast('登入成功', `歡迎回來！ ${response.nickname}`)
-        setStorage(response.nickname)
-        setToken(token, exp)
-        resetForm()
-        router.push('/todolist')
-      })
-      .catch((error) => {
-        toast.showToast('登入失敗', error.message)
-        delToken()
-        resetForm()
-      })
-  }
-</script> -->
