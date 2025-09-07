@@ -29,7 +29,13 @@
             add
           </button>
         </form>
-        <TodoList v-if="todoData.length > 0" :todos="todoData" />
+        <TodoList
+          v-if="todoData.length > 0"
+          :todos="todoData"
+          @patch-todo="todoStatus"
+          @del-todo="delTodo"
+          @edit-todo="editTodo"
+        />
         <div class="flex flex-col items-center justify-center p-11" v-else>
           <p class="mb-4">目前尚無待辦事項</p>
           <img class="w-full" src="/src/assets/images/empty.png" alt="empty img" />
@@ -53,6 +59,9 @@
   const toast = useToastStore()
   const userTodo = ref('')
   const todoData = ref([])
+  const findTodoIndex = (id) => {
+    return todoData.value.findIndex((item) => item.id === id)
+  }
 
   const signOut = () => {
     const name = userName.value
@@ -85,6 +94,50 @@
       .catch((error) => {
         toast.showToast(error.message, todo)
         userTodo.value = ''
+      })
+  }
+
+  const todoStatus = (id) => {
+    const idx = findTodoIndex(id)
+    const item = todoData.value[idx]
+    apiRequest(`todos/${id}/toggle`, 'PATCH')
+      .then((res) => {
+        if (res.status) {
+          toast.showToast(res.message, item.content)
+          todoData.value[idx].status = !todoData.value[idx].status
+        }
+      })
+      .catch((error) => {
+        toast.showToast('狀態變更失敗', error.message)
+      })
+  }
+
+  const editTodo = (todo) => {
+    const idx = findTodoIndex(todo.id)
+    apiRequest(`todos/${todo.id}`, 'PUT', { content: todo.content })
+      .then((res) => {
+        if (res.status) {
+          toast.showToast(res.message, todo.content)
+          todoData.value[idx].content = todo.content
+        }
+      })
+      .catch((error) => {
+        toast.showToast('編輯失敗', error.message)
+      })
+  }
+
+  const delTodo = (id) => {
+    const idx = findTodoIndex(id)
+    const delTodo = todoData.value[idx]
+    apiRequest(`todos/${id}`, 'DELETE')
+      .then((res) => {
+        if (res.status) {
+          toast.showToast(res.message, delTodo.content)
+          todoData.value.splice(idx, 1)
+        }
+      })
+      .catch((error) => {
+        toast.showToast('刪除失敗', error.message)
       })
   }
 

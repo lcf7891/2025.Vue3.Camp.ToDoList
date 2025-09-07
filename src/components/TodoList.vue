@@ -38,11 +38,11 @@
         :key="todo.id"
         :item="todo"
         :edit-id="editId"
-        @todo-status="patchTodo"
+        @todo-status="emit('patch-todo', $event)"
         @edit-open="editId = $event"
         @edit-cancel="editId = null"
-        @edit-save="updateTodo"
-        @del-todo="deleteTodo"
+        @edit-save="emit('edit-todo', $event)"
+        @del-todo="emit('del-todo', $event)"
       />
       <p class="py-2 text-sm">{{ waitTodos.length }} 個待完成項目</p>
     </div>
@@ -52,8 +52,6 @@
 <script setup>
   import { ref, computed } from 'vue'
   import TodoItem from './TodoItem.vue'
-  import { apiRequest } from '@/composables/useApi'
-  import { useToastStore } from '@/stores/useToastStore'
 
   const props = defineProps({
     todos: {
@@ -61,7 +59,8 @@
       default: () => []
     }
   })
-  const toast = useToastStore()
+  const emit = defineEmits(['del-todo', 'edit-todo', 'patch-todo'])
+  const editId = ref(null)
   const waitTodos = computed(() => {
     return props.todos.filter((todo) => !todo.status)
   })
@@ -83,50 +82,5 @@
   }
   const allBtn = () => {
     filterStatus.value = 'all'
-  }
-  const editId = ref(null)
-  const findTodoIndex = (id) => {
-    return filterTodos.value.findIndex((item) => item.id === id)
-  }
-  const updateTodo = (todo) => {
-    const idx = findTodoIndex(todo.id)
-    apiRequest(`todos/${todo.id}`, 'PUT', { content: todo.content })
-      .then((response) => {
-        if (response.status) {
-          toast.showToast(response.message, todo.content)
-          filterTodos.value[idx].content = todo.content
-        }
-      })
-      .catch((error) => {
-        toast.showToast('編輯失敗', error.message)
-      })
-  }
-  const deleteTodo = (id) => {
-    const idx = findTodoIndex(id)
-    const delTodo = filterTodos.value[idx]
-    apiRequest(`todos/${id}`, 'DELETE')
-      .then((response) => {
-        if (response.status) {
-          toast.showToast(response.message, delTodo.content)
-          filterTodos.value.splice(idx, 1)
-        }
-      })
-      .catch((error) => {
-        toast.showToast('刪除失敗', error.message)
-      })
-  }
-  const patchTodo = (id) => {
-    const idx = findTodoIndex(id)
-    const todo = filterTodos.value[idx]
-    apiRequest(`todos/${id}/toggle`, 'PATCH')
-      .then((response) => {
-        if (response.status) {
-          toast.showToast(response.message, todo.content)
-          filterTodos.value[idx].status = !filterTodos.value[idx].status
-        }
-      })
-      .catch((error) => {
-        toast.showToast('狀態變更失敗', error.message)
-      })
   }
 </script>

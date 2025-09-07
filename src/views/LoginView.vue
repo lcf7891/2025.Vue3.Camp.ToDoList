@@ -36,7 +36,7 @@
   import LayoutAuth from '@/components/LayoutAuth.vue'
   import InputField from '@/components/InputField.vue'
   import { apiRequest } from '@/composables/useApi'
-  import { setToken } from '@/composables/useCookie'
+  import { setToken, delToken } from '@/composables/useCookie'
   import { setStorage } from '@/composables/useNicknameStorage'
   import { useToastStore } from '@/stores/useToastStore'
 
@@ -71,7 +71,7 @@
       })
       .catch((error) => {
         toast.showToast('登入失敗', error.message)
-        // delToken()
+        delToken()
         resetForm()
       })
   }

@@ -1,9 +1,18 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-// import { getToken } from '@/composables/useCookie'
+import { getToken } from '@/composables/useCookie'
+import { apiRequest } from '@/composables/useApi'
+import { useToastStore } from '@/stores/useToastStore'
 
 const routes = [
   {
     path: '/',
+    redirect: '/login',
+    meta: {
+      title: '導航頁'
+    }
+  },
+  {
+    path: '/login',
     name: 'Login',
     component: () => import('../views/LoginView.vue'),
     meta: {
@@ -23,8 +32,8 @@ const routes = [
     name: 'TodoList',
     component: () => import('../views/TodoListView.vue'),
     meta: {
-      title: '待辦事項清單'
-      // requiresAuth: true
+      title: '待辦事項清單',
+      requiresAuth: true
     }
   },
   {
@@ -46,16 +55,35 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-// router.beforeEach((to, from, next) => {
-//   const token = getToken()
+router.beforeEach(async (to) => {
+  const toast = useToastStore()
+  const token = getToken()
 
-//   if (to.meta.requiresAuth && !token) {
-//     next('/login') // 未登入導向 login
-//   } else if ((to.path === '/login' || to.path === '/register') && token) {
-//     next('/todolist') // 已登入直接到至 todoList
-//   } else {
-//     next() // 通過驗證
-//   }
-// })
+  // 未登入 → 禁止進入受保護頁面
+  if (to.meta.requiresAuth && !token) {
+    return { name: 'Login' }
+  }
+
+  // 已登入 → 禁止進入登入頁
+  if (token && to.name === 'Login') {
+    return { name: 'TodoList' }
+  }
+
+  // 若需要驗證 token 是否有效
+  if (to.meta.requiresAuth && token) {
+    try {
+      const result = await apiRequest('users/checkout')
+      if (!result.status) {
+        toast.showToast('Token 驗證失敗', '請重新登入')
+        return { name: 'Login' }
+      }
+    } catch (error) {
+      toast.showToast('Token 驗證失敗', error.message)
+      return { name: 'Login' }
+    }
+  }
+
+  return true
+})
 
 export default router

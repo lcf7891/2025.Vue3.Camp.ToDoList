@@ -1,7 +1,7 @@
 <template>
   <LayoutAuth>
     <div class="ml-0 w-full lg:ml-26 lg:w-[304px]">
-      <h2 class="mb-6 text-center text-2xl font-bold lg:text-left">最實用的線上代辦事項服務</h2>
+      <h2 class="mb-6 text-center text-2xl font-bold lg:text-left">註冊帳號</h2>
       <form class="mb-6" @submit.prevent="signUp">
         <InputField
           type="email"
@@ -88,9 +88,8 @@
         if (res.status) {
           toast.showToast('註冊成功', res.uid)
           resetForm()
-          router.push('/')
+          router.push('/login')
         }
-        console.log(res)
       })
       .catch((error) => {
         toast.showToast('註冊失敗', error.message)

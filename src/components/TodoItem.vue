@@ -24,7 +24,7 @@
         <button
           class="material-symbols-outlined btn rounded-r-sm p-1 text-sm transition-all duration-300 group-hover:translate-x-0 hover:scale-110"
           type="button"
-          @click="editSave"
+          @click="editSave(item.id)"
         >
           save
         </button>
@@ -36,7 +36,7 @@
         class="btn mx-0.5 rounded-sm p-1 text-sm opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 hover:scale-110"
         type="button"
         :class="editClass"
-        @click="editOpen"
+        @click="editOpen(item.id)"
       >
         edit_note
       </button>
@@ -44,7 +44,7 @@
     <button
       class="material-symbols-outlined mr-4 mb-4 cursor-pointer opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 hover:scale-110"
       type="button"
-      @click="delTodo"
+      @click="delTodo(item.id)"
     >
       close
     </button>
@@ -71,18 +71,18 @@
   const todoStatus = () => {
     emit('todo-status', props.item.id)
   }
-  const editOpen = () => {
-    emit('edit-open', props.item.id)
+  const editOpen = (id) => {
+    emit('edit-open', id)
   }
   const editCancel = () => {
     emit('edit-cancel', null)
     editTodo.value = ''
   }
-  const editSave = () => {
+  const editSave = (id) => {
     const newTodo = editTodo.value.trim()
     if (newTodo) {
       const upData = {
-        id: props.item.id,
+        id,
         content: newTodo
       }
       emit('edit-cancel', null)
@@ -92,7 +92,7 @@
       toast.showToast('變更事項內容失敗', '請輸入要更改的內容')
     }
   }
-  const delTodo = () => {
-    emit('del-todo', props.item.id)
+  const delTodo = (id) => {
+    emit('del-todo', id)
   }
 </script>
