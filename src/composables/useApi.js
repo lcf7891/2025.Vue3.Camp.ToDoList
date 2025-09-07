@@ -1,11 +1,12 @@
 import axios from 'axios'
+import { getToken } from './useCookie'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL
 })
 api.interceptors.request.use((config) => {
-  // const token = getToken()
-  const token = document.cookie.replace(/(?:(?:^|.*;\s*)todolistToken\s*=\s*([^;]*).*$)|^.*$/, '$1')
+  const token = getToken()
+  // const token = document.cookie.replace(/(?:(?:^|.*;\s*)todolistToken\s*=\s*([^;]*).*$)|^.*$/, '$1')
   if (token) {
     config.headers.Authorization = token
   }
@@ -29,7 +30,6 @@ export const apiRequest = async (url, method, data) => {
     const response = await api(config)
     return response.data
   } catch (error) {
-    // const message = error.response?.data?.message || '請求失敗'
     const message = error?.response?.data?.message || error?.message || '請求失敗'
     throw new Error(message)
   }
