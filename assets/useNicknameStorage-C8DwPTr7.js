@@ -1,0 +1,1 @@
+const t="todolistToken",s=(e,a)=>{document.cookie=`${t}=${e}; expires=${a}; path=/`},n=()=>{document.cookie=`${t}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`},o="nickname",c=()=>localStorage.getItem(o),r=e=>{localStorage.setItem(o,e)},g=()=>{localStorage.removeItem(o)};export{r as a,n as b,g as d,c as g,s};
