@@ -72,7 +72,7 @@ router.beforeEach(async (to) => {
   // 若需要驗證 token 是否有效
   if (to.meta.requiresAuth && token) {
     try {
-      const result = await apiRequest('users/checkout')
+      const result = await apiRequest('users/checkout', 'GET')
       if (!result.status) {
         toast.showToast('Token 驗證失敗', '請重新登入')
         return { name: 'Login' }
