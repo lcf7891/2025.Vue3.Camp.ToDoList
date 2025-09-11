@@ -6,7 +6,7 @@
       </RouterLink>
       <ul class="flex items-center">
         <li class="mr-6 hidden lg:inline-block">
-          <span class="font-bold">{{ userName }}</span>
+          <span class="font-bold">{{ userName }} 的待辦事項</span>
         </li>
         <li class="hover:text-primary/80 hover:border-primary/80 border-b border-transparent">
           <button class="btn" type="button" @click="signOut">登出</button>
