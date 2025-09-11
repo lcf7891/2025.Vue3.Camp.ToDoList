@@ -13,6 +13,11 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+export const checkAuth = async () => {
+  const url = import.meta.env.VITE_API_BASE_URL
+  return await api.get(`${url}users/checkout`)
+}
+
 export const apiRequest = async (url, method, data) => {
   try {
     const config = {

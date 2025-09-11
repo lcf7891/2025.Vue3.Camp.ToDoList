@@ -1,4 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { checkAuth } from '@/composables/useApi'
+import { getToken } from '@/composables/useCookie'
+import { setStorage, getStorage } from '@/composables/useNicknameStorage'
+import { useToastStore } from '@/stores/useToastStore'
 
 const routes = [
   {
@@ -26,7 +30,8 @@ const routes = [
     name: 'TodoList',
     component: () => import('@/views/TodoListView.vue'),
     meta: {
-      title: '待辦事項清單'
+      title: '待辦事項清單',
+      requiresAuth: true
     }
   },
   {
@@ -43,9 +48,33 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   document.title = to.meta.title || '我的待辦清單'
-  next()
+  const toast = useToastStore()
+  const token = getToken()
+  const nickname = getStorage()
+
+  if (!to.meta.requiresAuth) {
+    return next()
+  }
+
+  if (!token) {
+    toast.showToast('尚未登入', '請先登入')
+    return next('/login')
+  }
+
+  if (!nickname) {
+    try {
+      const res = await checkAuth()
+      setStorage(res.data.nickname)
+    } catch (error) {
+      toast.showToast('驗證失敗', error)
+      toast.showToast('證已過期', '請重新登入')
+      return next('/login')
+    }
+  }
+
+  return next()
 })
 
 export default router
