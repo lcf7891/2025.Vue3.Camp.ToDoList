@@ -58,23 +58,19 @@ router.beforeEach(async (to, from, next) => {
     return next()
   }
 
-  if (!token) {
-    toast.showToast('尚未登入', '請先登入')
+  if (token && nickname) {
+    return next()
+  }
+
+  try {
+    const res = await checkAuth()
+    setStorage(res.data.nickname)
+    return next()
+  } catch (error) {
+    const message = error?.message || '驗證已過期，請重新登入'
+    toast.showToast('證已過期', message)
     return next('/login')
   }
-
-  if (!nickname) {
-    try {
-      const res = await checkAuth()
-      setStorage(res.data.nickname)
-    } catch (error) {
-      toast.showToast('驗證失敗', error)
-      toast.showToast('證已過期', '請重新登入')
-      return next('/login')
-    }
-  }
-
-  return next()
 })
 
 export default router

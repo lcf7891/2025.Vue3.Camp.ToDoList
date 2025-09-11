@@ -71,7 +71,7 @@
     }
   }
 
-  const signUp = () => {
+  const signUp = async () => {
     if (userData.value.password !== userData.value.confirmPassword) {
       toast.showToast('註冊失敗', '密碼與確認密碼不符')
       resetForm()
@@ -83,17 +83,14 @@
       nickname: userData.value.nickName
     }
 
-    apiRequest('users/sign_up', 'POST', data)
-      .then((res) => {
-        if (res.status) {
-          toast.showToast('註冊成功', res.uid)
-          resetForm()
-          router.push('/')
-        }
-      })
-      .catch((error) => {
-        toast.showToast('註冊失敗', error.message)
-        resetForm()
-      })
+    try {
+      const res = await apiRequest('users/sign_up', 'POST', data)
+      toast.showToast('註冊成功', res.uid)
+      router.push('/login')
+    } catch (error) {
+      toast.showToast('註冊失敗', error.message)
+    } finally {
+      resetForm()
+    }
   }
 </script>

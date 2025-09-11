@@ -53,26 +53,25 @@
       password: ''
     }
   }
-  const signIn = () => {
+
+  const signIn = async () => {
     const data = {
       email: userData.value.email,
       password: userData.value.password
     }
-    apiRequest('users/sign_in', 'POST', data)
-      .then((res) => {
-        if (res.status) {
-          const { token, exp } = res
-          setToken(token, exp)
-          setStorage(res.nickname)
-          resetForm()
-          toast.showToast('登入成功', `歡迎回來！ ${res.nickname}`)
-          router.push('/todolist')
-        }
-      })
-      .catch((error) => {
-        toast.showToast('登入失敗', error.message)
-        delToken()
-        resetForm()
-      })
+
+    try {
+      const res = await apiRequest('users/sign_in', 'POST', data)
+      const { token, exp } = res
+      setToken(token, exp)
+      setStorage(res.nickname)
+      toast.showToast('登入成功', `歡迎回來！ ${res.nickname}`)
+      router.push('/todolist')
+    } catch (error) {
+      toast.showToast('登入失敗', error.message)
+      delToken()
+    } finally {
+      resetForm()
+    }
   }
 </script>

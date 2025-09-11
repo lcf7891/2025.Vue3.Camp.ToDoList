@@ -63,92 +63,85 @@
     return todoData.value.findIndex((item) => item.id === id)
   }
 
-  const signOut = () => {
+  const signOut = async () => {
     const name = userName.value
-    apiRequest('users/sign_out', 'POST')
-      .then((res) => {
-        toast.showToast(res.message, `期待您再次回來！ ${name}`)
-        delStorage()
-        delToken()
-        router.push('/')
-      })
-      .catch((error) => {
-        toast.showToast('登出失敗', error.message)
-      })
+
+    try {
+      const res = await apiRequest('users/sign_out', 'POST')
+      toast.showToast(res.message, `期待您再次回來！ ${name}`)
+      delStorage()
+      delToken()
+      router.push('/')
+    } catch (error) {
+      toast.showToast('登出失敗', error.message)
+    }
   }
 
-  const addTodo = () => {
+  const addTodo = async () => {
     const todo = userTodo.value.trim()
     if (!todo) {
       toast.showToast('新增失敗', '請輸入待辦事項')
+      userTodo.value = ''
       return
     }
-    apiRequest('todos/', 'POST', { content: todo })
-      .then((res) => {
-        if (res.status) {
-          toast.showToast('新增成功', res.newTodo.content)
-          todoData.value.push(res.newTodo)
-          userTodo.value = ''
-        }
-      })
-      .catch((error) => {
-        toast.showToast(error.message, todo)
-        userTodo.value = ''
-      })
+
+    try {
+      const res = await apiRequest('todos/', 'POST', { content: todo })
+      toast.showToast('新增成功', res.newTodo.content)
+      todoData.value.push(res.newTodo)
+    } catch (error) {
+      toast.showToast(error.message, todo)
+    } finally {
+      userTodo.value = ''
+    }
   }
 
-  const todoStatus = (id) => {
+  const todoStatus = async (id) => {
     const idx = findTodoIndex(id)
     const item = todoData.value[idx]
-    apiRequest(`todos/${id}/toggle`, 'PATCH')
-      .then((res) => {
-        if (res.status) {
-          toast.showToast(res.message, item.content)
-          todoData.value[idx].status = !todoData.value[idx].status
-        }
-      })
-      .catch((error) => {
-        toast.showToast('狀態變更失敗', error.message)
-      })
+
+    try {
+      const res = await apiRequest(`todos/${id}/toggle`, 'PATCH')
+      toast.showToast(res.message, item.content)
+      todoData.value[idx].status = !todoData.value[idx].status
+    } catch (error) {
+      toast.showToast('狀態變更失敗', error.message)
+    }
   }
 
-  const editTodo = (todo) => {
+  const editTodo = async (todo) => {
     const idx = findTodoIndex(todo.id)
-    apiRequest(`todos/${todo.id}`, 'PUT', { content: todo.content })
-      .then((res) => {
-        if (res.status) {
-          toast.showToast(res.message, todo.content)
-          todoData.value[idx].content = todo.content
-        }
-      })
-      .catch((error) => {
-        toast.showToast('編輯失敗', error.message)
-      })
+
+    try {
+      const res = await apiRequest(`todos/${todo.id}`, 'PUT', { content: todo.content })
+      toast.showToast(res.message, todo.content)
+      todoData.value[idx].content = todo.content
+    } catch (error) {
+      toast.showToast('編輯失敗', error.message)
+    }
   }
 
-  const delTodo = (id) => {
+  const delTodo = async (id) => {
     const idx = findTodoIndex(id)
     const delTodo = todoData.value[idx]
-    apiRequest(`todos/${id}`, 'DELETE')
-      .then((res) => {
-        if (res.status) {
-          toast.showToast(res.message, delTodo.content)
-          todoData.value.splice(idx, 1)
-        }
-      })
-      .catch((error) => {
-        toast.showToast('刪除失敗', error.message)
-      })
+
+    try {
+      const res = await apiRequest(`todos/${id}`, 'DELETE')
+      toast.showToast(res.message, delTodo.content)
+      todoData.value.splice(idx, 1)
+    } catch (error) {
+      toast.showToast('刪除失敗', error.message)
+    }
   }
 
-  onMounted(async () => {
+  const getTodoList = async () => {
     try {
-      const result = await apiRequest('todos/')
-      if (result) {
-        todoData.value = result.data
-      }
+      const res = await apiRequest('todos/')
+      todoData.value = res.data
     } catch (error) {
       toast.showToast('請求失敗', error.message)
     }
-  })
+  }
+
+  onMounted(() => getTodoList())
 </script>
