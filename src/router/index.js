@@ -68,7 +68,7 @@ router.beforeEach(async (to, from, next) => {
     return next()
   } catch (error) {
     const message = error?.message || '驗證已過期，請重新登入'
-    toast.showToast('證已過期', message)
+    toast.showToast('驗證已過期', message)
     return next('/login')
   }
 })
