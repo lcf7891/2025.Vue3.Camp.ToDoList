@@ -8,5 +8,7 @@
   "trailingComma": "none",
   "endOfLine": "lf",
   "vueIndentScriptAndStyle": true,
-  "htmlWhitespaceSensitivity": "ignore"
+  "htmlWhitespaceSensitivity": "ignore",
+  "bracketSpacing": true,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
