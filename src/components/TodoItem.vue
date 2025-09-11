@@ -14,6 +14,7 @@
           class="bg-table text-primary flex-1 py-1 text-sm transition-all duration-300 focus:outline-none"
           v-model="editTodo"
           @keyup.enter="editSave(item.id)"
+          @keyup.esc="editCancel"
         />
         <button
           class="material-symbols-outlined btn rounded-l-sm p-1 text-sm transition-all duration-300 group-hover:translate-x-0 hover:scale-110"
@@ -30,7 +31,7 @@
           save
         </button>
       </div>
-      <div class="w-full" :class="{ 'text-muted line-through': item.status }" v-else>
+      <div class="w-full truncate" :class="{ 'text-muted line-through': item.status }" v-else>
         {{ item.content }}
       </div>
       <button
