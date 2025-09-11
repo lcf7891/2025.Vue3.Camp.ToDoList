@@ -12,6 +12,6 @@
   </div>
 </template>
 <script setup>
-  import authLogo from '@/assets/images/authlogo.png'
-  import authLeft from '@/assets/images/authleft.png'
+  import authLogo from '@img/authlogo.png'
+  import authLeft from '@img/authleft.png'
 </script>

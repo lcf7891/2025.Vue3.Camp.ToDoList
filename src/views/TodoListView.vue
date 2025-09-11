@@ -2,7 +2,7 @@
   <div class="min-h-screen lg:bg-linear-[175deg,#FFD370_60%,#fff_40%]">
     <nav class="flex items-center justify-between px-8 py-4 lg:mb-6">
       <RouterLink to="/">
-        <img src="@/assets/images/logo.png" alt="todolist logo" />
+        <img :src="TodoListLogo" alt="todolist logo" />
       </RouterLink>
       <ul class="flex items-center">
         <li class="mr-6 hidden lg:inline-block">
@@ -38,7 +38,7 @@
         />
         <div class="flex flex-col items-center justify-center p-11" v-else>
           <p class="mb-4">目前尚無待辦事項</p>
-          <img class="w-full" src="/src/assets/images/empty.png" alt="empty img" />
+          <img class="w-full" :src="Empty" alt="empty img" />
         </div>
       </div>
     </main>
@@ -48,6 +48,8 @@
 <script setup>
   import { ref, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
+  import TodoListLogo from '@img/logo.png'
+  import Empty from '@img/empty.png'
   import TodoList from '@/components/TodoList.vue'
   import { apiRequest } from '@/composables/useApi'
   import { useToastStore } from '@/stores/useToastStore'
