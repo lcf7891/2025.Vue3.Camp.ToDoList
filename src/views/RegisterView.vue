@@ -52,9 +52,11 @@
   import InputField from '@/components/InputField.vue'
   import { apiRequest } from '@/composables/useApi'
   import { useToastStore } from '@/stores/useToastStore'
+  import { useLoadingStore } from '@/stores/useLoadingStore'
 
   const toast = useToastStore()
   const router = useRouter()
+  const loader = useLoadingStore()
 
   const userData = ref({
     email: '',
@@ -82,7 +84,7 @@
       password: userData.value.password,
       nickname: userData.value.nickName
     }
-
+    loader.startLoading()
     try {
       const res = await apiRequest('users/sign_up', 'POST', data)
       toast.showToast('註冊成功', res.uid)
@@ -91,6 +93,7 @@
       toast.showToast('註冊失敗', error.message)
     } finally {
       resetForm()
+      loader.stopLoading()
     }
   }
 </script>

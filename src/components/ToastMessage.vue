@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed top-6 right-6" v-if="toasts.length">
+  <div class="fixed top-6 right-6 z-50" v-if="toasts.length">
     <div
       class="bg-table/80 mb-4 w-[150px] rounded-md text-sm shadow-lg backdrop-blur-md lg:w-[300px]"
       v-for="toast in toasts"

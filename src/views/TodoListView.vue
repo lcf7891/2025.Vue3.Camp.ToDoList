@@ -55,10 +55,12 @@
   import { useToastStore } from '@/stores/useToastStore'
   import { delToken } from '@/composables/useCookie'
   import { getStorage, delStorage } from '@/composables/useNicknameStorage'
+  import { useLoadingStore } from '@/stores/useLoadingStore'
 
   const router = useRouter()
   const userName = ref(getStorage())
   const toast = useToastStore()
+  const loader = useLoadingStore()
   const userTodo = ref('')
   const todoData = ref([])
   const findTodoIndex = (id) => {
@@ -67,7 +69,7 @@
 
   const signOut = async () => {
     const name = userName.value
-
+    loader.startLoading()
     try {
       const res = await apiRequest('users/sign_out', 'POST')
       toast.showToast(res.message, `期待您再次回來！ ${name}`)
@@ -76,6 +78,8 @@
       router.push('/')
     } catch (error) {
       toast.showToast('登出失敗', error.message)
+    } finally {
+      loader.stopLoading()
     }
   }
 
@@ -86,7 +90,7 @@
       userTodo.value = ''
       return
     }
-
+    loader.startLoading()
     try {
       const res = await apiRequest('todos/', 'POST', { content: todo })
       toast.showToast('新增成功', res.newTodo.content)
@@ -95,53 +99,63 @@
       toast.showToast(error.message, todo)
     } finally {
       userTodo.value = ''
+      loader.stopLoading()
     }
   }
 
   const todoStatus = async (id) => {
     const idx = findTodoIndex(id)
     const item = todoData.value[idx]
-
+    loader.startLoading()
     try {
       const res = await apiRequest(`todos/${id}/toggle`, 'PATCH')
       toast.showToast(res.message, item.content)
       todoData.value[idx].status = !todoData.value[idx].status
     } catch (error) {
       toast.showToast('狀態變更失敗', error.message)
+    } finally {
+      loader.stopLoading()
     }
   }
 
   const editTodo = async (todo) => {
     const idx = findTodoIndex(todo.id)
-
+    loader.startLoading()
     try {
       const res = await apiRequest(`todos/${todo.id}`, 'PUT', { content: todo.content })
       toast.showToast(res.message, todo.content)
       todoData.value[idx].content = todo.content
     } catch (error) {
       toast.showToast('編輯失敗', error.message)
+    } finally {
+      loader.stopLoading()
     }
   }
 
   const delTodo = async (id) => {
     const idx = findTodoIndex(id)
     const delTodo = todoData.value[idx]
-
+    loader.startLoading()
     try {
       const res = await apiRequest(`todos/${id}`, 'DELETE')
       toast.showToast(res.message, delTodo.content)
       todoData.value.splice(idx, 1)
     } catch (error) {
       toast.showToast('刪除失敗', error.message)
+    } finally {
+      loader.stopLoading()
     }
   }
 
   const getTodoList = async () => {
+    loader.startLoading()
     try {
       const res = await apiRequest('todos/')
       todoData.value = res.data
     } catch (error) {
       toast.showToast('請求失敗', error.message)
+    } finally {
+      loader.stopLoading()
     }
   }
 

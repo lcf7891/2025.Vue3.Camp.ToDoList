@@ -39,9 +39,11 @@
   import { setToken, delToken } from '@/composables/useCookie'
   import { setStorage } from '@/composables/useNicknameStorage'
   import { useToastStore } from '@/stores/useToastStore'
+  import { useLoadingStore } from '@/stores/useLoadingStore'
 
   const router = useRouter()
   const toast = useToastStore()
+  const loader = useLoadingStore()
 
   const userData = ref({
     email: '',
@@ -59,7 +61,7 @@
       email: userData.value.email,
       password: userData.value.password
     }
-
+    loader.startLoading()
     try {
       const res = await apiRequest('users/sign_in', 'POST', data)
       const { token, exp } = res
@@ -72,6 +74,7 @@
       delToken()
     } finally {
       resetForm()
+      loader.stopLoading()
     }
   }
 </script>
