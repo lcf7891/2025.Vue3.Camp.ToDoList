@@ -2,7 +2,6 @@
   <div
     class="fixed top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50 backdrop-blur-xs"
   >
-    <!-- 裡面依然是原本的 loader 動畫 -->
     <div class="relative h-[60px] w-[60px]">
       <span
         class="loader absolute top-0 left-0 h-full w-full"
@@ -34,7 +33,7 @@
       0 0 60px #ffd370,
       0 0 80px #ffd370,
       0 0 100px #ffd370;
-    animation: LoadingAction 1s linear infinite;
+    animation: LoadingAction 0.5s linear infinite;
     animation-delay: calc(0.01s * var(--i));
   }
 
