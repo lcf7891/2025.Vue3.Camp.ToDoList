@@ -33,8 +33,8 @@
       0 0 60px #ffd370,
       0 0 80px #ffd370,
       0 0 100px #ffd370;
-    animation: LoadingAction 0.5s linear infinite;
-    animation-delay: calc(0.01s * var(--i));
+    animation: LoadingAction 1s linear infinite;
+    animation-delay: calc(0.05s * var(--i));
   }
 
   @keyframes LoadingAction {
