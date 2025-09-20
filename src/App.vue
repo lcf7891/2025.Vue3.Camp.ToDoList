@@ -1,7 +1,7 @@
 <template>
   <RouterView />
   <ToastMessage />
-  <LoadingSpinner v-if="isLoading" />
+  <LoadingSpinner v-if="loader.isLoading" />
 </template>
 
 <script setup>
