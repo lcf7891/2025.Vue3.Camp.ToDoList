@@ -38,11 +38,11 @@
         :key="todo.id"
         :item="todo"
         :edit-id="editId"
-        @todo-status="emit('patch-todo', $event)"
+        @todo-status="handleTodoStatus"
         @edit-open="editId = $event"
         @edit-cancel="editId = null"
-        @edit-save="emit('edit-todo', $event)"
-        @del-todo="emit('del-todo', $event)"
+        @edit-save="handleEditSave"
+        @del-todo="handleDelTodo"
       />
       <p class="py-2 text-sm">{{ waitTodos.length }} 個待完成項目</p>
     </div>
@@ -77,4 +77,8 @@
     }
     return props.todos
   })
+
+  const handleTodoStatus = (id) => emit('patch-todo', id)
+  const handleEditSave = (todo) => emit('edit-todo', todo)
+  const handleDelTodo = (id) => emit('del-todo', id)
 </script>

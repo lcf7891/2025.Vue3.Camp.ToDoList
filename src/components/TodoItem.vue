@@ -2,10 +2,10 @@
   <div class="group mb-4 flex items-center">
     <div class="border-tabele mr-4 flex w-full items-center border-b pb-4">
       <input
-        class="border-muted checked:bg-no-repea mr-4 h-[20px] min-w-[20px] appearance-none rounded-sm border bg-white checked:border-white checked:[background-image:url('/src/assets/images/vector.png')] checked:bg-center"
+        class="border-muted checked:bg-no-repea mr-4 h-[20px] min-w-[20px] cursor-pointer appearance-none rounded-sm border bg-white checked:border-white checked:[background-image:url('/src/assets/images/vector.png')] checked:bg-center"
         type="checkbox"
         :checked="item.status"
-        @click="todoStatus"
+        @change="todoStatus"
       />
       <div class="flex w-full items-center" v-if="isEditing">
         <input
