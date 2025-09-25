@@ -6,7 +6,7 @@
       :key="toast.id"
     >
       <h5 class="border-b-muted text-info border-b p-2">{{ toast.title }}</h5>
-      <p class="p-2">{{ toast.content }}</p>
+      <p class="truncate p-2">{{ toast.content }}</p>
     </div>
   </div>
 </template>
