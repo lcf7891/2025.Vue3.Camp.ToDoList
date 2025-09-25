@@ -6,7 +6,7 @@
           class="btn tab-btn rounded-tl-xl text-sm"
           :class="{ 'tab-btn-active': filterStatus === 'all' }"
           type="button"
-          @click="allBtn"
+          @click="setFilter('all')"
         >
           全部
         </button>
@@ -16,7 +16,7 @@
           class="btn tab-btn text-sm"
           type="button"
           :class="{ 'tab-btn-active': filterStatus === 'wait' }"
-          @click="waitBtn"
+          @click="setFilter('wait')"
         >
           待完成
         </button>
@@ -26,7 +26,7 @@
           class="btn tab-btn rounded-tr-xl text-sm"
           :class="{ 'tab-btn-active': filterStatus === 'done' }"
           type="button"
-          @click="doneBtn"
+          @click="setFilter('done')"
         >
           已完成
         </button>
@@ -65,6 +65,9 @@
     return props.todos.filter((todo) => !todo.status)
   })
   const filterStatus = ref('all')
+  const setFilter = (status) => {
+    filterStatus.value = status
+  }
   const filterTodos = computed(() => {
     if (filterStatus.value === 'wait') {
       return waitTodos.value
@@ -74,13 +77,4 @@
     }
     return props.todos
   })
-  const waitBtn = () => {
-    filterStatus.value = 'wait'
-  }
-  const doneBtn = () => {
-    filterStatus.value = 'done'
-  }
-  const allBtn = () => {
-    filterStatus.value = 'all'
-  }
 </script>
